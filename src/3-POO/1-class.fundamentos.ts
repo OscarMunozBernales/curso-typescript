@@ -8,7 +8,7 @@
  * Es una buena práctica inicializar las propiedades que coloquemos en nuestra clase, ya sea por fuera o dentro de nuestro constructor.
  */
 
-class MyDate {
+export class MyDate {
 
     year: number;
     month: number;
@@ -20,26 +20,6 @@ class MyDate {
         this.day = day;
     }
 
-    set _year( year : number) {
-        this.year = year;
-    }
-    set _month( month : number ) {
-        this.month = month;
-    }
-    set _day( day : number ){
-        this.day = day;
-    }
-
-    get _year() : number {
-        return this.year;
-    }
-    get _month() : number {
-        return this.month;
-    }
-    get _day() : number {
-        return this.day;
-    }
-
     toString() : string {
         return `${this.year}-${this.month}-${this.day}`;
     }
@@ -49,4 +29,3 @@ class MyDate {
 
 const date = new MyDate(2022, 7, 1);
 console.log(date.toString());
-console.log(date._month(0));
