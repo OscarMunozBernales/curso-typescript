@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { CreateProductDto } from './product.dto';
+import { CreateProductDto, FindProductDto, UpdateProductDto } from './product.dto';
 import { Product } from './product.model';
 
 export const products: Product[] = [];
@@ -22,6 +22,16 @@ export const addProduct = (data: CreateProductDto) => {
 }
 
 
-export const updateProduct = (id: string, changes: Product ) => {
-  // code
+export const updateProduct = (id: string, changes: UpdateProductDto ): Product => {
+  const index = products.findIndex(item => item.id === id);
+  const prevData = products[index];
+  products[index] = {
+    ...prevData,
+    ...changes
+  }
+  return products[index];
+}
+
+export const findProducts = ( conditions: FindProductDto ) : Product[] => {
+  return products;
 }
