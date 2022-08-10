@@ -58,13 +58,35 @@ export class MyDate {
         if ( this.year % 4 === 0 && (this.year % 100 !== 0 || this.year % 400 === 0)) this.leapYear = true;
     }
 
+    private veryfyLastDayForMonth( add: number, lastDayMonth: number){
+
+        if (this.day + add <= lastDayMonth){
+            this.day += add;
+        } else {
+            this.day = 1;
+            this.month++;
+            if ( this.month > 11) {
+                this.month = 0;
+                this.year++;
+            }
+        }
+
+    }
     sumDay ( numberOfDay : number ) {
 
-        let newDay = this.day + numberOfDay;
-        let loopAdd = true;
-        do {
-
-        } while ( loopAdd )
+        for ( let add = 0 ; add <= numberOfDay ; add++ ) {
+            if (this.month === 1) {
+                let lastDayFebrary : number = this.leapYear ? 29 : 28;
+                this.veryfyLastDayForMonth(add, lastDayFebrary);
+            } else if ( this.monthWith31Day.includes(this.month) ) {
+                let lastDayMonth = 31;
+                this.veryfyLastDayForMonth(add, lastDayMonth);
+            } else {
+                let lastDayMonth = 30;
+                this.veryfyLastDayForMonth(add, lastDayMonth);
+            }
+        }
+        
     }
 
     toString() : string {
@@ -74,4 +96,5 @@ export class MyDate {
 }
 
 const date = new MyDate(2022, 100, 40)
+date.sumDay(400);
 console.log(date.toString());
