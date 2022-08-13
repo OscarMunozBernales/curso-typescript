@@ -58,10 +58,9 @@ export class MyDate {
         if ( this.year % 4 === 0 && (this.year % 100 !== 0 || this.year % 400 === 0)) this.leapYear = true;
     }
 
-    private veryfyLastDayForMonth( add: number, lastDayMonth: number){
-
-        if (this.day + add <= lastDayMonth){
-            this.day += add;
+    private veryfyLastDayForMonth( lastDayMonth: number){
+        if ((this.day + 1) <= lastDayMonth){
+            this.day++;
         } else {
             this.day = 1;
             this.month++;
@@ -72,29 +71,62 @@ export class MyDate {
         }
 
     }
-    sumDay ( numberOfDay : number ) {
 
-        for ( let add = 0 ; add <= numberOfDay ; add++ ) {
+    public sumDay ( numberOfDay : number ) : void {
+
+        for ( let add = 1 ; add <= numberOfDay ; add++ ) {
             if (this.month === 1) {
-                let lastDayFebrary : number = this.leapYear ? 29 : 28;
-                this.veryfyLastDayForMonth(add, lastDayFebrary);
+                this.veryfyLastDayForMonth(this.leapYear ? 29 : 28);
             } else if ( this.monthWith31Day.includes(this.month) ) {
-                let lastDayMonth = 31;
-                this.veryfyLastDayForMonth(add, lastDayMonth);
+                this.veryfyLastDayForMonth(31);
             } else {
-                let lastDayMonth = 30;
-                this.veryfyLastDayForMonth(add, lastDayMonth);
+                this.veryfyLastDayForMonth(30);
             }
         }
         
     }
 
-    toString() : string {
-        return `${this.year}-${this.month}-${this.day}`;
+    public sumMonth( numberofMonth : number ) : void {
+        for ( let month = 0 ; month < numberofMonth ; month++ ) {
+            if(( this.month + 1 ) > 12 ){
+                this.month = 0;
+                this.year++;
+            } else {
+                this.month++;
+            }
+        } 
+    }
+
+    private formatMonth() : string {
+        let month = this.month;
+        month++;
+        return month <= 8 ? `0${month}` : `${month}`;
+    }
+
+    private formatDay() : string {
+        let day = this.day;
+        return day <= 9 ? `0${day}` : `${day}`;
+    }
+
+    toString( format? : string ) : string {
+        
+        if ( typeof format !== 'undefined' ){
+            if ( format === 'yyyy.mm.dd' ){
+                return `${this.year}.${this.formatMonth()}.${this.formatDay()}`;
+            } else if( format === 'yyyy/mm/dd' ) {
+                return `${this.year}/${this.formatMonth()}/${this.formatDay()}`;
+            } else if ( format === 'yyyy-mm-dd' ) {
+                return `${this.year}-${this.formatMonth()}-${this.formatDay()}`;    
+            } else {
+                console.log(this.month);
+                return `${this.formatDay()} de ${this.nameMonth[this.month]} del ${this.year}`;
+            }
+        } else {
+            return `${this.year}-${this.formatMonth()}-${this.formatDay()}`;
+        }
     }
 
 }
 
-const date = new MyDate(2022, 100, 40)
-date.sumDay(400);
-console.log(date.toString());
+const date = new MyDate(2022, 11, 11)
+console.log(date.toString(''));
