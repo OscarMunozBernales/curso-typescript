@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Product } from './util/model/product.model';
+import { Product } from './../util/model/product.model';
 (async ()=> {
 
   async function getProductsAsync() : Promise<Product[]>{
